@@ -4,14 +4,15 @@
 class PdfCreator(device: Device, workdir: String) {
 
   def unzip(zip: String) : List[String] = {
-    List("/tmp/samp1.jpg", "/tmp/samp2.jpg", "/tmp/samp3.jpg",
-    "/tmp/samp4.jpg", "/tmp/samp5.jpg")
+    val dir = "/Users/eiji/work/"
+    List(dir + "samp1.jpg", dir + "samp2.jpg", dir + "samp3.jpg",
+      dir + "samp4.jpg", dir + "samp5.jpg")
   }
 
   def create(zipf: String, outf: String): Unit = {
     println("DEVICE: " + device.name)
     println("OUTF: " + outf)
-    val conv = new ImageConverter(workdir)
+    val conv = new ImageConverter(workdir, device)
     val srcimgs = unzip(zipf)
     val srcpair = (srcimgs zip (1 to srcimgs.size toList)).map(conv.exec)
   }
