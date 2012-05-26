@@ -1,10 +1,10 @@
 
 
 object EbmCL extends App {
-  val device  = Device.KINDLE3
-  val zip     = "~/tmp/sample-book.zip"
-  val outf    = "~/tmp/sample-book.pdf"
-  val workdir = "~/tmp"
+  val device  = Device.IPAD
+  val workdir = "/Users/eiji/tmp"
+  val zip     = workdir + "/sample-book.zip"
+  val outf    = workdir + "/sample-book.pdf"
 
   val creator = new PdfCreator(device, workdir)
   creator.create(zip, outf)

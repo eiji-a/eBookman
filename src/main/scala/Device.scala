@@ -1,6 +1,6 @@
 
 
-case class Device(name: String, w: Int, h: Int, col: String = "gray") {
+case class Device(name: String, w: Int, h: Int, col: String = Device.GRAYSCALE) {
   val aspect = h.toDouble / w.toDouble
   def scale(x:Int, y:Int): (Int, Int) = {
     val mag = y.toDouble / x.toDouble
