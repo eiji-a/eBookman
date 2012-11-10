@@ -1,7 +1,7 @@
 
-
+/*
 object EbmCL extends App {
-  val device  = Device.IPAD
+  val device  = Device.KINDLE3
   val workdir = "/Users/eiji/tmp"
   val zip     = workdir + "/sample-book.zip"
   val outf    = workdir + "/sample-book.pdf"
@@ -10,3 +10,4 @@ object EbmCL extends App {
   creator.create(zip, outf)
 
 }
+*/
