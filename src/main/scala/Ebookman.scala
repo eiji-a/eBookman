@@ -1,3 +1,6 @@
+import java.io.File
+import java.lang.System
+
 
 object Ebookman {
   def main(args: Array[String]) {
@@ -11,16 +14,14 @@ object Ebookman {
     zipper.exec(scaned + book, archive + book + ".zip", true)
 
 
-    val device  = Device.NEXUS7
-    val input   = "/Users/eiji/tmp/ebinput"
-    val output  = "/Users/eiji/tmp/eboutput"
+    val devices = List(Device.NEXUS7, Device.KINDLE3)
     val workdir = "/Users/eiji/tmp"
     val zip     = workdir + "/sample-book.zip"
-    val outf    = workdir + "/sample-book.pdf"
+    val outf    = workdir + "/Ebookman" + System.currentTimeMillis
 
-    val creator = new PdfCreator(device, input, output, workdir)
-    creator.create(zip, outf)
-
+    val creator = new PdfCreator(workdir)
+    val outs = creator.convert(new File(zip), outf, devices)
+    outs.foreach(s => println(s._1.name))
   }
 }
 

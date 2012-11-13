@@ -1,21 +1,19 @@
 import scala.sys.process._
 import java.io.File
 
-class ImageConverter(device: Device, dirin: String, dirout: String,
-  workdir: String = "/tmp") {
+class ImageConverter(device: Device, workin: String, workout: String) {
 
   //val SIPS = "sips "
   //val SIPSF = SIPS + "-s format "
   val CONVERT = "convert "
-  val SIZECMD = "sips -g pixelWidth -g pixelHeight "
+  //val SIZECMD = "sips -g pixelWidth -g pixelHeight "
 
   val IMGHDR = "img-"
-  val TMPFMT = "gif"
   val EXTGIF = ".gif"
   val EXTPNG = ".png"
   val EXTJPG = ".jpg"
-  val TMP1 = workdir + "/tmp01"
-  val TMP2 = workdir + "/tmp02"
+  val TMP1 = workout + "/tmp01"
+  val TMP2 = workout + "/tmp02"
 
   val FRAMEWIDTH = 2
 
@@ -23,12 +21,14 @@ class ImageConverter(device: Device, dirin: String, dirout: String,
     Process(cmd) !!;
   }
 
+  /*
   def size(file: String): (Int, Int) = {
     val sz = exec(SIZECMD + file)
     val pat = """\S+\s+pixelWidth:\s+(\d+)\s+pixelHeight:\s+(\d+)\s+""".r
     val pat(x, y) = sz
     device.scale(x.toInt, y.toInt, FRAMEWIDTH)
   }
+  */
 
   def clean: Unit = {
     // workdir の tmpファイルを消す
@@ -41,7 +41,7 @@ class ImageConverter(device: Device, dirin: String, dirout: String,
 
   def proc(pair: (File, Int)): String = {
     // DEVICE DEPENDENCY
-    val srcname = dirin + "/" + pair._1.getName()
+    val srcname = pair._1.getAbsolutePath
     convert(if (device.cont == null) "" else " -normalize ", srcname, TMP1 + EXTJPG)
 
     // RESIZE AND COLORING AND SELECT FORMAT
@@ -58,9 +58,9 @@ class ImageConverter(device: Device, dirin: String, dirout: String,
     }
 
     // DENSITY
-    val dstf = IMGHDR + "%03d".format(pair._2) + ext
+    val dstf = workout + "/" + IMGHDR + "%03d".format(pair._2) + ext
     val opt3 = " -units PixelsPerInch -density " + device.dpi
-    convert(opt3, TMP2 + ext, dirout + "/" + dstf)
+    convert(opt3, TMP2 + ext, dstf)
 
     println(pair._1 + " -> " + dstf)
     dstf

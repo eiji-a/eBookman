@@ -25,7 +25,7 @@ object Device {
   val KINDLE3  = Device("kindle3", 560, 734, 167, "15%,95%", GRAYSCALE)
   val READERT1 = Device("reader_t1", 584, 754, 167, "15%,95%", GRAYSCALE)
   val IPAD     = Device("ipad", 768, 1008, 163, null, FULLCOLOR)
-  val NEXUS7   = Device("nexus7", 800, 1172, 216, null, FULLCOLOR)
+  val NEXUS7   = Device("nexus7", 800, 1205, 216, null, FULLCOLOR)
 
   val presets = Array(KINDLE3, READERT1, IPAD, NEXUS7)
 }

@@ -1,27 +1,45 @@
+import scala.sys.process._
 import java.io.File
 
 
-class PdfCreator(device: Device, dirin: String, dirout: String,
-  workdir: String = "/tmp") {
+class PdfCreator(workdir: String = "/tmp") {
 
-  def unzip(zip: String) : Array[java.io.File] = {
-    val dir = "/Users/eiji/work/"
-    List(dir + "samp1.jpg", dir + "samp2.jpg", dir + "samp3.jpg",
-      dir + "samp4.jpg", dir + "samp5.jpg", dir + "samp6.jpg",
-      dir + "samp7.jpg", dir + "samp8.jpg", dir + "samp9.jpg",
-      dir + "samp10.jpg", dir + "samp11.jpg", dir + "samp12.jpg",
-      dir + "samp13.jpg", dir + "samp14.jpg", dir + "samp15.jpg",
-      dir + "samp16.jpg")
-    new File(dirin).listFiles
+  val WORK1 = workdir + "/ebin"
+  val WORK2 = workdir + "/ebout"
+  val EXTPDF = ".pdf"
+
+  def resetOutdir {
+    Process("rm -rf " + WORK2) !!;
+    new File(WORK2).mkdir
   }
 
-  def create(zipf: String, outf: String): Unit = {
-    println("DEVICE: " + device.name)
-    println("OUTF: " + outf)
-    val conv = new ImageConverter(device, dirin, dirout, workdir)
-    val srcimgs = unzip(zipf)
-    val srcpair = (srcimgs zip (1 to srcimgs.size toList)).map(conv.proc)
-    srcpair.foreach(println)
-    conv.clean
+  def cleanDirs {
+    Process("rm -rf " + WORK1 + " " + WORK2) !!;
+  }
+
+  def unzipSource(zipf: File): List[File] = {
+    Process("unzip -d " + WORK1 + " " + zipf.getAbsolutePath) !!;
+    val dirs = new File(WORK1).listFiles.toList.filter(_.isDirectory)
+    dirs.map(_.listFiles.toList.filter(_.getName.endsWith(".jpg"))).flatten
+  }
+
+  def combineImages(converted: List[String], outf: String): File = {
+    Process("convert " + converted.mkString(" ") + " " + outf) !!;
+    println("OUTF:" + outf)
+    new File(outf)
+  }
+
+  def createPdf(device: Device, outf: String, images: List[File]): (Device, File) = {
+    resetOutdir
+    val conv = new ImageConverter(device, WORK1, WORK2)
+    val converted = (images zip (1 to images.size toList)).map(conv.proc)
+    (device, combineImages(converted, outf + "." + device.name + EXTPDF))
+  }
+
+  def convert(zipf: File, outf: String, devices: List[Device]): List[(Device, File)] = {
+    val unzipped = unzipSource(zipf)
+    val pdfs = devices.map(createPdf(_, outf, unzipped))
+    cleanDirs
+    pdfs
   }
 }
