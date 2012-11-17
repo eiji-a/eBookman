@@ -1,5 +1,6 @@
 import java.io.File
 import java.lang.System
+import scalax.file.Path
 
 
 object Ebookman {
@@ -16,12 +17,12 @@ object Ebookman {
 
     val devices = List(Device.NEXUS7, Device.KINDLE3)
     val workdir = "/Users/eiji/tmp"
-    val zip     = workdir + "/sample-book.zip"
+    val zip     = Path(workdir + "/sample-book.zip", '/')
     val outf    = workdir + "/Ebookman" + System.currentTimeMillis
 
     val creator = new PdfCreator(workdir)
-    val outs = creator.convert(new File(zip), outf, devices)
-    outs.foreach(s => println(s._1.name))
+    val outs = creator.convert(zip, outf, devices)
+    outs.foreach(s => println("OUTF:" + s._2.path))
   }
 }
 

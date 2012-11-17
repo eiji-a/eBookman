@@ -1,7 +1,11 @@
 import scala.sys.process._
 import java.io.File
+import scalax.file.Path
 
-class ImageConverter(device: Device, workin: String, workout: String) {
+class ImageConverter(device: Device, win: Path, wout: Path) {
+
+  val workin = win
+  val workout = wout
 
   //val SIPS = "sips "
   //val SIPSF = SIPS + "-s format "
@@ -12,8 +16,8 @@ class ImageConverter(device: Device, workin: String, workout: String) {
   val EXTGIF = ".gif"
   val EXTPNG = ".png"
   val EXTJPG = ".jpg"
-  val TMP1 = workout + "/tmp01"
-  val TMP2 = workout + "/tmp02"
+  val TMP1 = "tmp01"
+  val TMP2 = "tmp02"
 
   val FRAMEWIDTH = 2
 
@@ -34,36 +38,47 @@ class ImageConverter(device: Device, workin: String, workout: String) {
     // workdir の tmpファイルを消す
   }
 
-  def convert(opt: String, src: String, dst: String) = {
-    exec(CONVERT + opt + " " + src + " " + dst)
+  def tempPath(file: String)(ext: String) = workout / Path(file + ext)
+  def temp1 = tempPath(TMP1)_
+  def temp2 = tempPath(TMP2)_
+
+  def convert(opt: String, src: Path, dst: Path) = {
+    exec(CONVERT + opt + " " + src.path + " " + dst.path)
     dst
   }
 
-  def proc(pair: (File, Int)): String = {
+  def fsize(file: Path) = {
+    file.size match {
+      case Some(size) => size
+      case _ => 0
+    }
+  }
+
+  def proc(pair: (Path, Int)) = {
     // DEVICE DEPENDENCY
-    val srcname = pair._1.getAbsolutePath
-    convert(if (device.cont == null) "" else " -normalize ", srcname, TMP1 + EXTJPG)
+    convert(if (device.cont == null) "" else " -normalize ", pair._1, temp1(EXTJPG))
 
     // RESIZE AND COLORING AND SELECT FORMAT
     val sz2 = (device.w - FRAMEWIDTH) + "x" + (device.h - FRAMEWIDTH)
     val opt2 = " -resize " + sz2 + " -extent " + sz2 + " -border 1x1 -unsharp 0" +
     (if (device.col == Device.GRAYSCALE) " -type Grayscale" else "") +
     (if (device.cont == null) "" else " -level " + device.cont)
-    val fgif = new File(convert(opt2, TMP1 + EXTJPG, TMP2 + EXTGIF))
-    val fjpg = new File(convert(opt2, TMP1 + EXTJPG, TMP2 + EXTJPG))
-    var ext = EXTJPG
-    if (fgif.length() < fjpg.length()) {
-      ext = EXTPNG
-      convert("", TMP2 + EXTGIF, TMP2 + EXTPNG)
+    val fgif = convert(opt2, temp1(EXTJPG), temp2(EXTGIF))
+    val fjpg = convert(opt2, temp1(EXTJPG), temp2(EXTJPG))
+    val ext = if (fsize(fgif) < fsize(fjpg)) {
+      convert("", temp2(EXTGIF), temp2(EXTPNG))
+      EXTPNG
+    } else {
+      EXTJPG
     }
 
     // DENSITY
-    val dstf = workout + "/" + IMGHDR + "%03d".format(pair._2) + ext
     val opt3 = " -units PixelsPerInch -density " + device.dpi
-    convert(opt3, TMP2 + ext, dstf)
+    val dstf = this.workout / Path(IMGHDR + "%03d".format(pair._2) + ext)
+    convert(opt3, temp2(ext), dstf)
 
-    println(pair._1 + " -> " + dstf)
-    dstf
+    print(".")
+    dstf.path
   }
 
 }
