@@ -3,16 +3,17 @@ import org.scalatest.FunSuite
 class DeviceSuite extends FunSuite {
 
   test("sample device") {
-    val d1 = Device("sample", 100, 200, "gray16")
+    val d1 = Device("sample", 100, 200, 100, "10%,90%", "gray16")
     assert(d1.name === "sample")
     assert(d1.w === 100)
     assert(d1.h === 200)
     assert(d1.aspect === 2.0)
+    assert(d1.dpi === 100)
     assert(d1.col === "gray16")
   }
 
   test("sample with default color") {
-    val d2 = Device("sample2", 150, 200)
+    val d2 = Device("sample2", 150, 200, 120, "10%,90%")
     assert(d2.name === "sample2")
     assert(d2.w === 150)
     assert(d2.h === 200)
@@ -24,8 +25,8 @@ class DeviceSuite extends FunSuite {
     val d3 = Device.KINDLE3
     assert(d3.name === "kindle3")
     assert(d3.w === 560)
-    assert(d3.h === 734)
-    assert(d3.aspect === 734.0 / 560.0)
+    assert(d3.h === 735)
+    assert(d3.aspect === 735.0 / 560.0)
     assert(d3.col === "gray")
   }
 

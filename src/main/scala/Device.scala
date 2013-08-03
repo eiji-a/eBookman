@@ -22,11 +22,23 @@ object Device {
   val SHARP   = true
   val UNSHARP = !SHARP
 
-  val KINDLE3  = Device("kindle3", 560, 734, 167, "15%,95%", GRAYSCALE)
-  val READERT1 = Device("reader_t1", 584, 754, 167, "15%,95%", GRAYSCALE)
-  val IPAD     = Device("ipad", 768, 1008, 163, null, FULLCOLOR)
-  val NEXUS7   = Device("nexus7", 800, 1205, 216, null, FULLCOLOR)
+  // Kindle3
+  val K3TN   = Device("kindle3", 560, 735, 167, "0%,100%,0.3", GRAYSCALE)
+  val K3CN   = Device("kindle3", 560, 735, 167, "10%,95%", GRAYSCALE)
+  val K3TO   = Device("kindle3", 560, 735, 167, "0%,90%,0.3", GRAYSCALE)
+  val K3CO   = Device("kindle3", 560, 735, 167, "10%,85%", GRAYSCALE)
+  // Kindle Paperwhite
+  val KWTN   = Device("kindle_pw", 658, 905, 212, "0%,100%,0.3", GRAYSCALE)
+  val KWCN   = Device("kindle_pw", 658, 905, 212, "15%,95%", GRAYSCALE)
+  val KWTO   = Device("kindle_pw", 658, 905, 212, "0%,90%,0.3", GRAYSCALE)
+  val KWCO   = Device("kindle_pw", 658, 905, 212, "15%,85%", GRAYSCALE)
+  // Nexus7
+  val N7N    = Device("nexus7", 800, 1205, 216, "0%,100%", FULLCOLOR)
+  val N7O    = Device("nexus7", 800, 1205, 216, "0%,90%", FULLCOLOR)
+  // Others
+  val READERT1  = Device("reader_t1", 584, 754, 167, "15%,95%", GRAYSCALE)
+  val IPAD      = Device("ipad", 768, 1008, 163, null, FULLCOLOR)
 
-  val presets = Array(KINDLE3, READERT1, IPAD, NEXUS7)
+  val presets = Array(KWTN, KWCN, KWTO, KWCO, N7N, N7O, READERT1, IPAD)
 }
 

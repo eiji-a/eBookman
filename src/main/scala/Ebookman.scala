@@ -13,10 +13,12 @@ object Ebookman {
     zipper.exec(scaned + book, archive + book + ".zip", true)
 
 
-    val devices = List(Device.NEXUS7, Device.KINDLE3)
+    //val devices = List(Device.NEXUS7, Device.KINDLE3, Device.KINDLE_PW)
+    val devices = List(Device.KWCO)
     val workdir = "/Users/eiji/tmp"
-    val zip     = Path(workdir + "/sample-book.zip", '/')
-    val outf    = workdir + "/Ebookman" + System.currentTimeMillis
+    val zip     = Path(workdir + "/" + args(0) + ".zip", '/')
+    //val outf    = workdir + "/Ebookman" + System.currentTimeMillis
+    val outf    = workdir + "/" + args(0) + System.currentTimeMillis
 
     val creator = new PdfCreator(workdir)
     val outs = creator.convert(zip, outf, devices)

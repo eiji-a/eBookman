@@ -1,3 +1,4 @@
+
 import scala.sys.process._
 import scalax.file.Path
 
@@ -32,12 +33,15 @@ class ImageConverter(device: Device, win: Path, wout: Path) {
 
   def proc(pair: (Path, Int)) = {
     // DEVICE DEPENDENCY
-    convert(if (device.cont == null) "" else " -normalize ")(pair._1)(temp1(EXTJPG))
+    //convert(if (device.cont == null) "" else " -contrast-stretch 3% ")(pair._1)(temp1(EXTJPG))
+    //convert(if (device.cont == null) "" else " -normalize ")(pair._1)(temp1(EXTJPG))
+    convert(if (device.cont == null) "" else "")(pair._1)(temp1(EXTJPG))
 
     // RESIZE AND COLORING AND SELECT FORMAT
     val sz2 = (device.w - FRAMEWIDTH) + "x" + (device.h - FRAMEWIDTH)
-    val opt2 = " -resize " + sz2 + " -extent " + sz2 + " -border 1x1 -unsharp 0" +
-    (if (device.col == Device.GRAYSCALE) " -type Grayscale" else "") +
+    val opt2 = " -resize " + sz2 + " -extent " + sz2 + " -border 1x1 -unsharp 0x1" +
+    //val opt2 = " -resize " + sz2 + " -extent " + sz2 + " -border 1x1 " +
+    //(if (device.col == Device.GRAYSCALE) " -type Grayscale" else "") +
     (if (device.cont == null) "" else " -level " + device.cont)
     val sz_gif = fsize(convert(opt2)(temp1(EXTJPG))(temp2(EXTGIF)))
     val sz_jpg = fsize(convert(opt2)(temp1(EXTJPG))(temp2(EXTJPG)))
