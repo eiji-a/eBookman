@@ -1,11 +1,12 @@
 import scala.sys.process._
 import scalax.file.Path
 
-class PdfCreator(workdir: String) {
+class PdfCreator(outdir: String, workdir: String) {
 
   val WORK1 = Path(workdir + "/ebin", '/')
   val WORK2 = Path(workdir + "/ebout", '/')
   val EXTPDF = ".pdf"
+  val EXTIMG = ".jpg"
 
   def resetOutdir {
     WORK2.deleteRecursively()
@@ -21,25 +22,30 @@ class PdfCreator(workdir: String) {
   val unzipSource = (zipf: Path) => {
     exec("unzip -d " + WORK1.path + " " + zipf.path)
     val dirs = WORK1.children().filter(_.isDirectory).toList
-    dirs.map(_.children().filter(f => f.name.endsWith(".jpg"))).flatten.sort(_ < _)
+    dirs.map(_.children().filter(f => f.name.endsWith(EXTIMG))).flatten.sort(_ < _)
   }
-  val combineImages = (converted: List[String]) => (outf: String) => {
-    exec("convert " + converted.mkString(" ") + " " + outf)
+  val combineImages = (outfiles: List[String]) => (outf: String) => {
+    exec("convert " + outfiles.mkString(" ") + " " + outf)
     Path(outf, '/')
   }
 
-  def createPdf(device: Device, outf: String, images: List[Path]): (Device, Path) = {
+  def createPdf(device: Device, quality: Quality, outf: String, images: List[Path]): Path = {
     resetOutdir
-    val conv = new ImageConverter(device, WORK1, WORK2)
-    val converted = images.zipWithIndex.map(conv.proc)
-    println("done.")
-    (device, combineImages(converted)(outf + "." + device.name + EXTPDF))
+    val conv = new ImageConverter(device, quality, WORK1, WORK2)
+    val outfiles = images.zipWithIndex.map(conv.rename(_)(EXTIMG))
+    println("rename: done.")
+    conv.execute(outfiles.mkString(" "))
+    println("convert: done.")
+    val fname = outdir + "/" + device.name + "/" + outf + EXTPDF
+    combineImages(outfiles)(fname)
   }
 
-  def convert(zipf: Path, outf: String, devices: List[Device]): List[(Device, Path)] = {
-    val unzipped = unzipSource(zipf)
-    val pdfs = devices.map(createPdf(_, outf, unzipped))
+  def convert(zipf: Path, outf: String, device: Device, quality: Quality): Path = {
     cleanDirs
-    pdfs
+    val unzipped = unzipSource(zipf)
+    val pdf = createPdf(device, quality, outf, unzipped)
+    cleanDirs
+    println("all: done.")
+    pdf
   }
 }
