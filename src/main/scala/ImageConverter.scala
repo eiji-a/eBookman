@@ -49,6 +49,10 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path) {
     outfiles
   }
 
+  def combine(outimages: List[String], outf: String) = {
+    exec("convert " + outimages.mkString(" ") + " " + outf)
+  }
+
 }
 
 object ImageConverter {

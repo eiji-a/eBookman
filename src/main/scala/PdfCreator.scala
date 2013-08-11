@@ -19,33 +19,26 @@ class PdfCreator(outdir: String, workdir: String) {
   }
 
   val exec = (cmd: String) => cmd !!
+
   val unzipSource = (zipf: Path) => {
     exec("unzip -d " + WORK1.path + " " + zipf.path)
     val dirs = WORK1.children().filter(_.isDirectory).toList
     dirs.map(_.children().filter(f => f.name.endsWith(EXTIMG))).flatten.sort(_ < _)
   }
-  val combineImages = (outfiles: List[String]) => (outf: String) => {
-    exec("convert " + outfiles.mkString(" ") + " " + outf)
-    Path(outf, '/')
+
+  def createPdf(images: List[Path], conv: ImageConverter, pdf: String) = {
+    val outfiles = images.zipWithIndex.map(conv.rename(_)(EXTIMG))
+    conv.execute(outfiles.mkString(" "))
+    conv.combine(outfiles, pdf)
   }
 
-  def createPdf(device: Device, quality: Quality, outf: String, images: List[Path]): Path = {
+  def convert(zipf: Path, outf: String, device: Device, quality: Quality) = {
+    cleanDirs
     resetOutdir
     val conv = new ImageConverter(device, quality, WORK1, WORK2)
-    val outfiles = images.zipWithIndex.map(conv.rename(_)(EXTIMG))
-    println("rename: done.")
-    conv.execute(outfiles.mkString(" "))
-    println("convert: done.")
-    val fname = outdir + "/" + device.name + "/" + outf + EXTPDF
-    combineImages(outfiles)(fname)
-  }
-
-  def convert(zipf: Path, outf: String, device: Device, quality: Quality): Path = {
+    val pdf = outdir + "/" + device.name + "/" + outf + EXTPDF
+    createPdf(unzipSource(zipf), conv, pdf)
     cleanDirs
-    val unzipped = unzipSource(zipf)
-    val pdf = createPdf(device, quality, outf, unzipped)
-    cleanDirs
-    println("all: done.")
     pdf
   }
 }

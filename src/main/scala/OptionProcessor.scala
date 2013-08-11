@@ -1,5 +1,5 @@
 
-class OptionProcessor {
+object OptionProcessor {
 
   val DEFAULT = Map(
     "newness" -> "new",
