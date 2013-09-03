@@ -1,19 +1,22 @@
+//
+// Ebookman
+//
+
 import java.lang.System
 import scalax.file.Path
-
 
 object Ebookman {
 
   val help =
     """|Usage: Ebookman <options> <inputfile(zip)>
-       |  -h : help. print this document
-       |  -c : comic book
-       |  -t : text book
-       |  -n : newness (new/old/veryold)
-       |  -d : device name (ex. kindle3, nexus7)
-       |  -i : directory for input file
-       |  -o : directory for output file
-       |  -f : output file name
+       |  -h          : help. print this document
+       |  -c          : comic book
+       |  -t          : text book
+       |  -n <type>   : newness (type=new/old/veryold)
+       |  -d <device> : device name (ex. kindle3, nexus7)
+       |  -i <dir>    : directory for input file
+       |  -o <dir>    : directory for output file
+       |  -f <file>   : output file name
        |""".stripMargin
 
   val ebroot = "/Users/eiji/work/ebook"
