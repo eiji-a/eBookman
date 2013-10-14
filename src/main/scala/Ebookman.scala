@@ -7,21 +7,11 @@ import scalax.file.Path
 
 object Ebookman {
 
-  val help =
-    """|Usage: Ebookman <options> <inputfile(zip)>
-       |  -h          : help. print this document
-       |  -c          : comic book
-       |  -t          : text book
-       |  -n <type>   : newness (type=new/old/veryold)
-       |  -d <device> : device name (ex. kindle3, nexus7)
-       |  -i <dir>    : directory for input file
-       |  -o <dir>    : directory for output file
-       |  -f <file>   : output file name
-       |""".stripMargin
-
+  /*
   val ebroot = "/Users/eiji/work/ebook"
   val scaned = ebroot + "/scaned/comic/"
   val archive = ebroot + "/archive/comic/"
+  */
 
   def main(args: Array[String]) {
 
@@ -31,7 +21,7 @@ object Ebookman {
     
     val opts = OptionProcessor.analyze(args.toList)
     if (opts.contains("help")) {
-      println(help)
+      println(OptionProcessor.HELPMSG)
       System.exit(1)
     }
 
@@ -45,8 +35,8 @@ object Ebookman {
     println("QUALITY:" + quality.booktype)
     println("SOURCE:" + zip.path)
 
-    val creator = new PdfCreator(opts("outdir"), opts("workdir"))
-    val outs = creator.convert(zip, outf, device, quality)
+    val creator = new EbookCreator(opts("outdir"), opts("workdir"))
+    val outs = creator.convert(zip, outf, device, quality, opts)
     println("OUTF:" + outs + " finished successfully")
   }
 

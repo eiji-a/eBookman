@@ -1,4 +1,6 @@
-
+//
+// Device
+//
 
 case class Device(name: String, w: Int, h: Int, dpi: Int, scr: Screen) {
 
@@ -17,8 +19,10 @@ case class Device(name: String, w: Int, h: Int, dpi: Int, scr: Screen) {
 object Device {
 
   // Kindle3
-  val KINDLE3   = Device("kindle3",   560,  735, 167, Screen.EINK16)
-  val KINDLE_PW = Device("kindle_pw", 658,  905, 212, Screen.EINK16)
+  //val KINDLE3   = Device("kindle3",   560,  735, 167, Screen.EINK16)
+  val KINDLE3   = Device("kindle3",   600,  800, 167, Screen.EINK16)
+  //val KINDLE_PW = Device("kindle_pw", 658,  905, 212, Screen.EINK16)
+  val KINDLE_PW = Device("kindle_pw", 758, 1024, 212, Screen.EINK16)
   val NEXUS7    = Device("nexus7",    800, 1205, 216, Screen.LCD256)
   val IPADMINI  = Device("ipad_mini", 768, 1008, 163, Screen.LCD256)
   val READERT1  = Device("reader_t1", 584,  754, 167, Screen.EINK16)
