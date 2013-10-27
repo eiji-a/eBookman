@@ -8,6 +8,7 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
   val workout = wout
 
   val CONVERT = "convert "
+  val IDENTIFY = """identify -format %w,%h, """
   val MOGRIFY = "mogrify "
   val IMGHDR = "img-"
   val EXTGIF = ".gif"
@@ -38,18 +39,41 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
     imgfile
   }
 
+  def shiftv(x: String, y: String) = {
+    val sft = (device.w - device.h * x.toInt / y.toInt) / 2
+    if (sft < 0) 0 else sft
+  }
+
+  def rate(reso: List[String]): List[Int] = {
+    reso match {
+      case x :: y :: xs => shiftv(x, y) :: rate(xs)
+      case default => Nil
+    }
+  }
+
+  def calcShift(outfiles: String) = {
+    val dims = Process(IDENTIFY + outfiles) !!
+
+    val margs = rate(dims.split(",").toList)
+    val min = margs.min
+    val avg = margs.sum / margs.size
+    if (min * 2 > avg) avg else min * 2
+  }
+
   def execute(outfiles: String) = {
+    val shift = calcShift(outfiles)
     //val sz = (device.w - FRAMEWIDTH) + "x" + (device.h - FRAMEWIDTH)
     val sz = device.w + "x" + device.h
     val opt =
       " -level " + ImageConverter.LEVEL((device.scr, quality)) +
-       " -resize " + sz + " -extent " + sz +
+       " -resize " + sz + " -extent " + sz + "-" + shift +
       " -unsharp 0x1" +
       " -quality " + ImageConverter.QUALITY((device.scr, quality)) +
       " -units PixelsPerInch -density " + device.dpi +
       (if (btype == "text") {""} else {""})
       //" -border 1x1 -bordercolor #000 " +
       //(if (btype == "text") {" -format png "} else {""})
+    println("OPT: " + opt)
     mogrify(opt)(outfiles)
     outfiles
   }

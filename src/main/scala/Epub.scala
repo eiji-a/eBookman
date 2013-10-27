@@ -206,7 +206,7 @@ div {
     opf.append("<manifest>\n")
     opf.append(imagefiles.map(manifest(_, imgext)).mkString("\n"))
     opf.append("\n</manifest>\n")
-    opf.append("""<spine page-progression-direction="rtl">""" + "\n")
+    opf.append("""<spine page-progression-direction="ltr">""" + "\n")
     opf.append(imagefiles.map(itemref(_)).mkString("\n"))
     opf.append("\n</spine>\n")
     opf.append("</package>\n")      
