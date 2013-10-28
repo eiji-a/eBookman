@@ -73,7 +73,6 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
       (if (btype == "text") {""} else {""})
       //" -border 1x1 -bordercolor #000 " +
       //(if (btype == "text") {" -format png "} else {""})
-    println("OPT: " + opt)
     mogrify(opt)(outfiles)
     outfiles
   }

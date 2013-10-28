@@ -47,8 +47,9 @@ class EbookCreator(outdir: String, workdir: String) {
     val ext = if (opt("booktype") == "text") {EXTJPG} else {EXTJPG}
     val subject = opt.getOrElse("subject", opt("zipfile")).replaceAll("_", " ")
     val author  = opt.getOrElse("author", "unknown").replaceAll("_", " ")
+    val dir = if (device.dir != Device.BOTH) device.dir else opt("direction")
 
-    gene.generate(outfiles, WORK2.path, List(ext, subject, author, device.w.toString(), device.h.toString()))
+    gene.generate(outfiles, WORK2.path, List(ext, subject, author, device.w.toString(), device.h.toString(), dir))
     cleanDirs
     fname
   }

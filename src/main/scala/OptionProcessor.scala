@@ -21,7 +21,7 @@ object OptionProcessor {
     "author" -> "unknown",
     "booktype" -> "comic",
     "device" -> "kindle_pw",
-    "direction" -> "right",
+    "direction" -> Device.RIGHT,
     "indir" -> ".",
     "newness" -> "new",
     "outdir" -> ".",
@@ -34,8 +34,8 @@ object OptionProcessor {
       case x :: xs if x == "-h"       => analyze(xs) + ("help" -> "yes")
       case x :: xs if x == "-c"       => analyze(xs) + ("booktype" -> "comic")
       case x :: xs if x == "-t"       => analyze(xs) + ("booktype" -> "text")
-      case x :: xs if x == "-r"       => analyze(xs) + ("direction" -> "right")
-      case x :: xs if x == "-l"       => analyze(xs) + ("direction" -> "left")
+      case x :: xs if x == "-r"       => analyze(xs) + ("direction" -> Device.RIGHT)
+      case x :: xs if x == "-l"       => analyze(xs) + ("direction" -> Device.LEFT)
       case x :: x2 :: xs if x == "-n" => analyze(xs) + ("newness" -> newness(x2))
       case x :: x2 :: xs if x == "-d" => analyze(xs) + ("device" -> x2)
       case x :: x2 :: xs if x == "-i" => analyze(xs) + ("indir" -> x2)
