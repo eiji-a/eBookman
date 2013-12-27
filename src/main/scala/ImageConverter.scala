@@ -62,16 +62,16 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
 
   def execute(outfiles: String) = {
     val shift = calcShift(outfiles)
-    //val sz = (device.w - FRAMEWIDTH) + "x" + (device.h - FRAMEWIDTH)
-    val sz = device.w + "x" + device.h
+    val sz = (device.w - FRAMEWIDTH) + "x" + (device.h - FRAMEWIDTH)
+    //val sz = device.w + "x" + device.h
     val opt =
       " -level " + ImageConverter.LEVEL((device.scr, quality)) +
        " -resize " + sz + " -extent " + sz + "-" + shift +
       " -unsharp 0x1" +
       " -quality " + ImageConverter.QUALITY((device.scr, quality)) +
+      " -border 1x1 -bordercolor #000 " +
       " -units PixelsPerInch -density " + device.dpi +
       (if (btype == "text") {""} else {""})
-      //" -border 1x1 -bordercolor #000 " +
       //(if (btype == "text") {" -format png "} else {""})
     mogrify(opt)(outfiles)
     outfiles
