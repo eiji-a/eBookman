@@ -171,7 +171,7 @@ div {
 
   def itemref(imgfile: String): String = {
     val item =
-<itemref idref={imgfile + "-2"}/>
+  <itemref idref={imgfile + "-2"} />
 
     item.toString()
   }
@@ -186,30 +186,39 @@ div {
     val opf = OUTPATH / Path("metadata.opf")
     opf.write("""<?xml version="1.0"  encoding="UTF-8"?>""")
     opf.append("\n")
-    opf.append("""<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="calibre_id">""")
+    opf.append("""<package xmlns="http://www.idpf.org/2007/opf" prefix="rendition: http://www.idpf.org/vocab/rendition/# ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extentions-1.0/" unique-identifier="eBookman_id" version="3.0" xml:lang="ja">""")
     opf.append("\n")
     val opfxml =
-<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:Txt2ePub="http://no722.cocolog-nifty.com/blog/metadata">
-<dc:title>{title}</dc:title>
-<dc:creator opf:role="aut" opf:file-as="Unknown">{author}</dc:creator>
-<dc:contributor opf:role="bkp" opf:file-as="eBookman">eBookman (0.1)</dc:contributor>
-<dc:identifier opf:scheme="eBookman" id="eBookman_id">630358fe-4dd5-46e8-9241-4904dab61eeb</dc:identifier>
-<dc:date>2013-09-29T14:50:27+09:00</dc:date>
-<dc:language>ja</dc:language>
-<meta content="true" name="fixed-layout" />
-<meta content="comic" name="book-type" />
-<meta name="Txt2ePub:series_index" content="1"/>
-<meta name="cover" content="img-0000-1" />
-<dc:identifier opf:scheme="ISBN"></dc:identifier>
-</metadata>
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:Txt2ePub="http://no722.cocolog-nifty.com/blog/metadata">
+    <dc:title>{title}</dc:title>
+    <dc:creator id="creator0" opf:role="aut" opf:file-as="Unknown">{author}</dc:creator>
+    <dc:contributor opf:role="bkp" opf:file-as="eBookman">eBookman (0.1)</dc:contributor>
+    <dc:identifier opf:scheme="eBookman" id="eBookman_id">urn:uuid:630358fe-4dd5-46e8-9241-4904dab61eeb</dc:identifier>
+    <meta refines="#eBookman_id" property="identifier-type">uuid</meta>
+    <dc:date>2013-09-29T14:50:27+09:00</dc:date>
+    <dc:language id="language0">ja</dc:language>
+    <dc:publisher id="publisher0">eBookman</dc:publisher>
+    <meta name="cover" content="img-0000-1" />
+    <meta name="epub.eBookman" content="1.0" />
+    <meta content="true" name="fixed-layout" />
+    <meta content="comic" name="book-type" />
+    <meta name="Txt2ePub:series_index" content="1"/>
+    <dc:identifier opf:scheme="ISBN"></dc:identifier>
+    <meta name="orientation-lock" content="none" />
+    <meta name="RegionMagnification" content="false" />
+    <meta name="zero-gutter" content="true" />
+    <meta name="zero-margin" content="true" />
+    <meta property="ibooks:binding">false</meta>
+    <meta name="original-resolution" content={sizex + "x" + sizey} />
+  </metadata>
 
     opf.append(opfxml.toString())
-    opf.append("<manifest>\n")
+    opf.append("\n  <manifest>\n")
     opf.append(imagefiles.map(manifest(_, imgext)).mkString("\n"))
-    opf.append("\n</manifest>\n")
-    opf.append("""<spine page-progression-direction="""" + dir + """">""" + "\n")
+    opf.append("\n  </manifest>\n")
+    opf.append("""  <spine page-progression-direction="""" + dir + """">""" + "\n")
     opf.append(imagefiles.map(itemref(_)).mkString("\n"))
-    opf.append("\n</spine>\n")
+    opf.append("\n  </spine>\n")
     opf.append("</package>\n")      
     
 
