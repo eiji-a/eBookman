@@ -43,6 +43,7 @@ object OptionProcessor {
       case x :: x2 :: xs if x == "-f" => analyze(xs) + ("outfile" -> x2)
       case x :: x2 :: xs if x == "-s" => analyze(xs) + ("subject" -> x2)
       case x :: x2 :: xs if x == "-a" => analyze(xs) + ("author" -> x2)
+      case x :: x2 :: Nil             => DEFAULT + ("zipfile" -> x)
       case x :: Nil                   => DEFAULT + ("zipfile" -> x)
       case Nil                        => DEFAULT
     }
