@@ -25,7 +25,7 @@ class EbookCreator(outdir: String, workdir: String) {
   val unzipSource = (zipf: Path) => {
     exec("unzip -d " + WORK1.path + " " + zipf.path)
     val dirs = WORK1.children().filter(_.isDirectory).toList
-    dirs.map(_.children().filter(f => f.name.endsWith(EXTIMG))).flatten.sort(_ < _)
+    dirs.map(_.children().filter(f => f.name.endsWith(EXTIMG))).flatten.sortWith(_ < _)
   }
 
   def convertImages(images: List[Path], conv: ImageConverter) : List[String] = {
