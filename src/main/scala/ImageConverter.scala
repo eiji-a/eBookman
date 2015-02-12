@@ -87,10 +87,17 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
 
 object ImageConverter {
   val LEVEL = Map(
+    /*
     (Screen.EINK16, Quality.NEWCOMIC) -> "10%,95%",
     (Screen.EINK16, Quality.NEWTEXT)  -> "0%,100%,0.4",
     (Screen.EINK16, Quality.OLDCOMIC) -> "10%,85%",
     (Screen.EINK16, Quality.OLDTEXT)  -> "0%,90%,0.4",
+    */
+
+    (Screen.EINK16, Quality.NEWCOMIC) -> "0%,100%",
+    (Screen.EINK16, Quality.NEWTEXT)  -> "0%,100%",
+    (Screen.EINK16, Quality.OLDCOMIC) -> "0%,90%",
+    (Screen.EINK16, Quality.OLDTEXT)  -> "0%,90%",
 
     (Screen.LCD256, Quality.NEWCOMIC) -> "0%,100%",
     (Screen.LCD256, Quality.NEWTEXT)  -> "0%,100%",
@@ -99,10 +106,17 @@ object ImageConverter {
   )
 
   val QUALITY = Map(
+    /*
     (Screen.EINK16, Quality.NEWCOMIC) -> "30",
     (Screen.EINK16, Quality.NEWTEXT)  -> "60",
     (Screen.EINK16, Quality.OLDCOMIC) -> "30",
     (Screen.EINK16, Quality.OLDTEXT)  -> "60",
+    */
+
+    (Screen.EINK16, Quality.NEWCOMIC) -> "60",
+    (Screen.EINK16, Quality.NEWTEXT)  -> "90",
+    (Screen.EINK16, Quality.OLDCOMIC) -> "60",
+    (Screen.EINK16, Quality.OLDTEXT)  -> "90",
 
     (Screen.LCD256, Quality.NEWCOMIC) -> "60",
     (Screen.LCD256, Quality.NEWTEXT)  -> "90",
