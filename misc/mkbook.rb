@@ -35,8 +35,8 @@ end
 
 def delete_data(d)
   File.delete("#{d}.mobi.0") if File.exist?("#{d}.mobi.0")
-  File.delete("#{d}.epub") if File.exist?("#{d}.epub")
-  FileUtils.rm_r("#{d}") if File.exist?("#{d}")
+  #File.delete("#{d}.epub") if File.exist?("#{d}.epub")
+  #FileUtils.rm_r("#{d}") if File.exist?("#{d}")
 end
 
 def main
