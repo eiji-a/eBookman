@@ -66,7 +66,7 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
     //val sz = device.w + "x" + device.h
     val opt =
       " -level " + ImageConverter.LEVEL((device.scr, quality)) +
-       " -resize " + sz + " -extent " + sz + "-" + shift +
+      " -resize " + sz + " -extent " + sz + "-" + shift +
       " -unsharp 0x1" +
       " -quality " + ImageConverter.QUALITY((device.scr, quality)) +
       " -border 1x1 -bordercolor #000 " +
@@ -87,17 +87,15 @@ class ImageConverter(device: Device, quality: Quality, win: Path, wout: Path, bt
 
 object ImageConverter {
   val LEVEL = Map(
-    /*
     (Screen.EINK16, Quality.NEWCOMIC) -> "10%,95%",
     (Screen.EINK16, Quality.NEWTEXT)  -> "0%,100%,0.4",
     (Screen.EINK16, Quality.OLDCOMIC) -> "10%,85%",
     (Screen.EINK16, Quality.OLDTEXT)  -> "0%,90%,0.4",
-    */
 
-    (Screen.EINK16, Quality.NEWCOMIC) -> "0%,100%",
-    (Screen.EINK16, Quality.NEWTEXT)  -> "0%,100%",
-    (Screen.EINK16, Quality.OLDCOMIC) -> "0%,90%",
-    (Screen.EINK16, Quality.OLDTEXT)  -> "0%,90%",
+    (Screen.EINK2, Quality.NEWCOMIC) -> "0%,100%",
+    (Screen.EINK2, Quality.NEWTEXT)  -> "0%,100%",
+    (Screen.EINK2, Quality.OLDCOMIC) -> "0%,90%",
+    (Screen.EINK2, Quality.OLDTEXT)  -> "0%,90%",
 
     (Screen.LCD256, Quality.NEWCOMIC) -> "0%,100%",
     (Screen.LCD256, Quality.NEWTEXT)  -> "0%,100%",
@@ -106,17 +104,17 @@ object ImageConverter {
   )
 
   val QUALITY = Map(
-    /*
+    // for old Kindle3
     (Screen.EINK16, Quality.NEWCOMIC) -> "30",
     (Screen.EINK16, Quality.NEWTEXT)  -> "60",
     (Screen.EINK16, Quality.OLDCOMIC) -> "30",
     (Screen.EINK16, Quality.OLDTEXT)  -> "60",
-    */
 
-    (Screen.EINK16, Quality.NEWCOMIC) -> "60",
-    (Screen.EINK16, Quality.NEWTEXT)  -> "90",
-    (Screen.EINK16, Quality.OLDCOMIC) -> "60",
-    (Screen.EINK16, Quality.OLDTEXT)  -> "90",
+    // for new Kindle (7)
+    (Screen.EINK2, Quality.NEWCOMIC) -> "50",
+    (Screen.EINK2, Quality.NEWTEXT)  -> "70",
+    (Screen.EINK2, Quality.OLDCOMIC) -> "50",
+    (Screen.EINK2, Quality.OLDTEXT)  -> "70",
 
     (Screen.LCD256, Quality.NEWCOMIC) -> "60",
     (Screen.LCD256, Quality.NEWTEXT)  -> "90",
