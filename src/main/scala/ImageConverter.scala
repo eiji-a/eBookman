@@ -93,9 +93,9 @@ object ImageConverter {
     (Screen.EINK16, Quality.OLDTEXT)  -> "0%,90%,0.4",
 
     (Screen.EINK2, Quality.NEWCOMIC) -> "0%,100%",
-    (Screen.EINK2, Quality.NEWTEXT)  -> "0%,100%",
-    (Screen.EINK2, Quality.OLDCOMIC) -> "0%,90%",
-    (Screen.EINK2, Quality.OLDTEXT)  -> "0%,90%",
+    (Screen.EINK2, Quality.NEWTEXT)  -> "2%,100%",
+    (Screen.EINK2, Quality.OLDCOMIC) -> "0%,95%",
+    (Screen.EINK2, Quality.OLDTEXT)  -> "0%,95%,0.4",
 
     (Screen.LCD256, Quality.NEWCOMIC) -> "0%,100%",
     (Screen.LCD256, Quality.NEWTEXT)  -> "0%,100%",

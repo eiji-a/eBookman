@@ -23,7 +23,8 @@ def convert(zip, device, opt)
     return if File.ctime(mobi) >= File.ctime(zipf)
   end
   Dir.chdir(ARGV[0])
-  system "sbt 'run #{@OPT} #{opt} #{zip}'"
+  #system "sbt 'run #{@OPT} #{opt} #{zip}'"
+  system "java -jar target/scala-2.10/eBookman.jar #{@OPT} #{opt} #{zip}"
   Dir.chdir(@OUTDIR + "/#{device}")
   Dir.glob("#{zip}.*").each do |epub|
     system "mkbook.rb #{epub}"

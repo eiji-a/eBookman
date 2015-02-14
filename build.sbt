@@ -1,8 +1,14 @@
 name := "eBookman"
+jarName in assembly := "eBookman.jar"
 
-version := "0.1"
+lazy val commonSettings = Seq(
+  version := "0.1",
+  organization := "com.example",
+  scalaVersion := "2.10.3"
+)
 
-scalaVersion := "2.10.3"
+lazy val app = (project in file("app")).
+  settings(commonSettings: _*)
 
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
