@@ -111,10 +111,10 @@ object ImageConverter {
     (Screen.EINK16, Quality.OLDTEXT)  -> "60",
 
     // for new Kindle (7)
-    (Screen.EINK2, Quality.NEWCOMIC) -> "50",
-    (Screen.EINK2, Quality.NEWTEXT)  -> "70",
-    (Screen.EINK2, Quality.OLDCOMIC) -> "50",
-    (Screen.EINK2, Quality.OLDTEXT)  -> "70",
+    (Screen.EINK2, Quality.NEWCOMIC) -> "40",
+    (Screen.EINK2, Quality.NEWTEXT)  -> "60",
+    (Screen.EINK2, Quality.OLDCOMIC) -> "40",
+    (Screen.EINK2, Quality.OLDTEXT)  -> "60",
 
     (Screen.LCD256, Quality.NEWCOMIC) -> "60",
     (Screen.LCD256, Quality.NEWTEXT)  -> "90",
