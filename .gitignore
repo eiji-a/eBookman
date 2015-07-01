@@ -1,0 +1,23 @@
+*.class
+*.log
+*~
+
+# sbt specific
+.history
+app/
+dist/*
+target/resolution-cache/
+target/streams/
+target/test-reports/
+target/scala-2.10/classes/
+target/scala-2.10/test-classes/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+project/project/
+project/target/
+
+# Scala-IDE specific
+.scala_dependencies
+src/main/.DS_Store
