@@ -157,7 +157,7 @@ def main
       open(ARGV[2], 'wb').write(strippedFile.getStripedData)
     end
   rescue StandardError => e
-    STDERR.puts "Error: " + e
+    STDERR.puts "Error: " + e.message
     exit(1)
   end
 
